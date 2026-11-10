@@ -33,16 +33,16 @@ Live image compatibility is restricted to JPG/PNG (up to 5 MB for WhatsApp and 8
 
 ## Deploy to Render
 
-The repository includes [render.yaml](./render.yaml) for a Render web service and persistent disk. To deploy:
+The repository includes [render.yaml](./render.yaml) for a Render Free web service. To deploy:
 
 1. Push this project to a Git provider account.
-2. In Render, choose **New → Blueprint**, select the repository, and enter the requested secret environment values.
+2. In Render, choose **New → Blueprint**, select the repository, and enter the requested secret environment values. The blueprint uses Render's Free instance plan and does not create a paid persistent disk.
 3. Set `PUBLIC_BASE_URL` to the HTTPS URL Render assigns to the service, then redeploy.
 4. Use the generated service URL and `APP_USERNAME`/`APP_PASSWORD` to access the application.
 5. Complete Meta webhook configuration using the URL above.
 
-The blueprint starts in live mode and requires production login credentials. Leave provider credentials unset until configured; corresponding campaigns will remain blocked. Render account access and Meta credentials are not available in this workspace, so a public service cannot be provisioned from here.
+The blueprint starts in live mode and requires production login credentials. Leave provider credentials unset until configured; corresponding campaigns will remain blocked. Render Free services use an ephemeral filesystem and may spin down after inactivity. Imported files, uploaded media, and campaign/contact state can be lost when the service restarts or redeploys, and the service may take time to wake up. Use a paid persistent disk or an external database/object store if you need durable production data. Render account access and Meta credentials are not available in this workspace, so a public service cannot be provisioned from here.
 
 ## Persistence and security
 
-Campaign/contact state and uploaded files are stored under `DATA_DIR` (default `./data`; Render mounts `/var/data`). Imported CSV/XLSX files are not served publicly; campaign media is served from `/media` for Meta to fetch. Production requires HTTP Basic authentication using `APP_USERNAME` and `APP_PASSWORD`. Use HTTPS, limit account access, rotate tokens, and collect/store only recipient data you are authorized to process.
+Campaign/contact state and uploaded files are stored under `DATA_DIR` (default `./data`). On Render Free this is ephemeral storage, so data may disappear after a restart or redeploy. Imported CSV/XLSX files are not served publicly; campaign media is served from `/media` for Meta to fetch. Production requires HTTP Basic authentication using `APP_USERNAME` and `APP_PASSWORD`. Use HTTPS, limit account access, rotate tokens, and collect/store only recipient data you are authorized to process.

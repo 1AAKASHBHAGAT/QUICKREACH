@@ -2,21 +2,15 @@ services:
   - type: web
     name: quickreach
     runtime: node
-    plan: starter
+    plan: free
     buildCommand: npm ci
     startCommand: npm start
     healthCheckPath: /api/health
-    disk:
-      name: quickreach-data
-      mountPath: /var/data
-      sizeGB: 1
     envVars:
       - key: NODE_ENV
         value: production
       - key: QUICKREACH_MODE
         value: live
-      - key: DATA_DIR
-        value: /var/data
       - key: META_GRAPH_API_VERSION
         value: v24.0
       - key: APP_USERNAME
