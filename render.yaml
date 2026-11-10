@@ -1,0 +1,39 @@
+services:
+  - type: web
+    name: quickreach
+    runtime: node
+    plan: starter
+    buildCommand: npm ci
+    startCommand: npm start
+    healthCheckPath: /api/health
+    disk:
+      name: quickreach-data
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: QUICKREACH_MODE
+        value: live
+      - key: DATA_DIR
+        value: /var/data
+      - key: META_GRAPH_API_VERSION
+        value: v24.0
+      - key: APP_USERNAME
+        sync: false
+      - key: APP_PASSWORD
+        sync: false
+      - key: PUBLIC_BASE_URL
+        sync: false
+      - key: META_WHATSAPP_ACCESS_TOKEN
+        sync: false
+      - key: META_WHATSAPP_PHONE_NUMBER_ID
+        sync: false
+      - key: META_INSTAGRAM_ACCESS_TOKEN
+        sync: false
+      - key: META_INSTAGRAM_PAGE_ID
+        sync: false
+      - key: META_APP_SECRET
+        sync: false
+      - key: META_WEBHOOK_VERIFY_TOKEN
+        sync: false

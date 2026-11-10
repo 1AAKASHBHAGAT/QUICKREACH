@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>QuickReach</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div>
+        <h1>QuickReach</h1>
+        <p>Automated Photo & Message Distribution</p>
+      </div>
+      <nav>
+        <a href="#dashboard">Dashboard</a>
+        <a href="#import-contacts">Import Contacts</a>
+        <a href="#create-campaign">Create Campaign</a>
+        <a href="#campaign-history">Campaign History</a>
+        <a href="#settings">Settings</a>
+      </nav>
+    </header>
+
+    <main class="container">
+      <section id="dashboard" class="panel">
+        <div class="section-title">
+          <h2>Dashboard</h2>
+          <span id="status-pill" class="status-pill online">System online</span>
+        </div>
+        <div class="stats-grid">
+          <article class="stat-card accent-blue">
+            <label>Total Campaigns</label>
+            <strong id="total-campaigns">0</strong>
+          </article>
+          <article class="stat-card accent-green">
+            <label>Eligible Contacts</label>
+            <strong id="eligible-contacts">0</strong>
+          </article>
+          <article class="stat-card accent-purple">
+            <label>Accepted / Delivered</label>
+            <strong id="messages-sent">0</strong>
+          </article>
+          <article class="stat-card accent-orange">
+            <label>Needs Review</label>
+            <strong id="needs-review">0</strong>
+          </article>
+        </div>
+      </section>
+
+      <section id="import-contacts" class="panel">
+        <div class="section-title">
+          <h2>Import Contacts</h2>
+        </div>
+        <form id="import-form" class="stack-form">
+          <div class="inline-fields">
+            <label>
+              Platform
+              <select name="platform">
+                <option value="whatsapp">WhatsApp</option>
+                <option value="instagram">Instagram</option>
+              </select>
+            </label>
+            <label class="file-picker">
+              Recipient file
+              <input type="file" name="file" accept=".csv,.xlsx" required />
+            </label>
+          </div>
+          <button type="submit" class="primary-btn">Validate & Import</button>
+        </form>
+        <div id="import-summary" class="summary-box empty">No import yet.</div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Full Name</th>
+                <th>Phone / ID</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="import-preview-body"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="create-campaign" class="panel">
+        <div class="section-title">
+          <h2>Create Campaign</h2>
+        </div>
+        <form id="campaign-form" class="stack-form" enctype="multipart/form-data">
+          <div class="inline-fields">
+            <label>
+              Campaign Name
+              <input type="text" name="name" placeholder="Spring Orientation Invite" required />
+            </label>
+            <label>
+              Platform
+              <select name="platform">
+                <option value="whatsapp">WhatsApp</option>
+                <option value="instagram">Instagram</option>
+              </select>
+            </label>
+          </div>
+          <label>
+            Message Text
+            <textarea name="messageText" rows="6" required>Hello!
+
+We are excited to share an important announcement with you.
+
+Please check the attached photograph for more details.
+
+Thank you!</textarea>
+          </label>
+          <p class="help-text">When an approved WhatsApp template is selected, Meta sends that approved template body; this message text is ignored. The template body must not contain variables in this MVP.</p>
+          <div class="inline-fields template-fields" id="whatsapp-template-fields">
+            <label>
+              Approved WhatsApp template (optional)
+              <input type="text" name="templateName" placeholder="approved_template_name" pattern="[a-z0-9_]*" />
+            </label>
+            <label>
+              Template language
+              <input type="text" name="templateLanguage" value="en_US" placeholder="en_US" />
+            </label>
+          </div>
+          <p class="help-text">Use a pre-approved template when the WhatsApp 24-hour service window is closed. This MVP supports templates without variables or image headers. Otherwise, each contact must include a future Messaging Window Expires At timestamp.</p>
+          <label class="file-picker">
+            Image Attachment
+            <input type="file" name="image" accept="image/jpeg,image/png,image/webp" />
+          </label>
+          <button type="submit" class="primary-btn">Create Campaign</button>
+        </form>
+        <div id="campaign-preview" class="summary-box empty">Campaign preview will appear here after creation.</div>
+      </section>
+
+      <section id="campaign-history" class="panel">
+        <div class="section-title">
+          <h2>Campaign History</h2>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Platform</th>
+                <th>Status</th>
+                <th>Recipients</th>
+                <th>Accepted / Delivered</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="campaign-table-body"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="settings" class="panel">
+        <div class="section-title">
+          <h2>Settings</h2>
+        </div>
+        <div class="settings-grid">
+          <div>
+            <h3>Provider Connections</h3>
+            <p id="integration-status">Checking provider configuration…</p>
+            <p class="help-text">Credentials stay on the server and are never shown in the browser.</p>
+          </div>
+          <div>
+            <h3>Messaging Rules</h3>
+            <ul>
+              <li>WhatsApp requires opt-in and an open 24-hour window or approved template.</li>
+              <li>Instagram requires a user-initiated eligible conversation and open messaging window.</li>
+              <li>Instagram usernames are not used as recipient identifiers.</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Compliance</h3>
+            <ul>
+              <li>Importing a contact does not grant permission to message them.</li>
+              <li>Configure Meta webhooks to receive available message status updates.</li>
+              <li>Live sends use Meta Graph API; demo mode never sends messages.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="/app.js"></script>
+  </body>
+</html>

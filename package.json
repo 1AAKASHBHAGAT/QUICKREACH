@@ -1,0 +1,21 @@
+{
+  "name": "quickreach-mvp",
+  "version": "1.0.0",
+  "description": "QuickReach MVP for automated WhatsApp and Instagram campaigns",
+  "main": "server.js",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "dependencies": {
+    "exceljs": "^4.4.0",
+    "express": "^4.19.2",
+    "multer": "^2.5.0"
+  },
+  "overrides": {
+    "uuid": "^11.1.1"
+  }
+}
